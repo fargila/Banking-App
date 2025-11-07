@@ -1,0 +1,49 @@
+'use client'
+
+import { sidebarLinks } from '@/constants'
+import { cn } from '@/lib/utils'
+import Image from 'next/image'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import React from 'react'
+
+const Sidebar = ({ user }: SiderbarProps) => {
+  const pathname = usePathname()
+  
+  return (
+    <section className='sidebar'>
+        <nav className='flex fle-col gap-4'>
+            <Link 
+            className='mb-12 cursor-pointer items-center gap-2'
+            href="/">
+              <Image
+              className='size-[24px] max-xl:size-14'
+              src='/public/icons/logo.svg'
+              width={34}
+              height={34}
+              alt='Horizon logo'/>
+
+              <h1 className='sidebar-logo'>Horizon</h1>
+            </Link>
+
+            {sidebarLinks.map((item)=> {
+              const isActive = pathname === item.route || 
+              pathname.startsWith(`${item.route}`)
+
+              return (
+                <Link 
+                className={cn('sidebar-link', {
+                  'bg-bank-gradient': isActive
+                })}
+                key={ item.label }
+                href={ item.route }>
+                  { item.label }
+                </Link> 
+              )
+            })}
+        </nav>
+    </section>
+  )
+}
+
+export default Sidebar
