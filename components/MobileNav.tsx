@@ -2,6 +2,7 @@
 
 import {
     Sheet,
+    SheetClose,
     SheetContent,
     SheetTrigger
 } from "@/components/ui/sheet"
@@ -25,48 +26,62 @@ const MobileNav = ({ user }: MobileNavProps) => {
                     alt='menu'
                     className='cursor-pointer'/>
                 </SheetTrigger>
-                <SheetContent side='left'>
+                
+                <SheetContent 
+                className="border-none bg-white"
+                side='left'>
                     <Link 
-                    className='flex mb-12 cursor-pointer items-center gap-2'
+                    className='flex cursor-pointer items-center gap-1 px-4'
                     href="/">
                         <Image
-                        className='size-[24px] max-xl:size-14'
                         src='/public/icons/logo.svg'
                         width={34}
                         height={34}
                         alt='Horizon logo'/>
 
-                        <h1 className='sidebar-logo'>Horizon</h1>
+                        <h1 className='text-26 font-ibm-plex-serif font-bold text-black-1'>Horizon</h1>
                     </Link>
 
-                    {sidebarLinks.map((item)=> {
-                    const isActive = pathname === item.route || 
-                    pathname.startsWith(`${item.route}`)
+                    <div className="mobilenav-sheet">
+                        <SheetClose asChild>
+                            <nav className="flex h-full flex-col gap-6 pt-16 text-white">
+                                {sidebarLinks.map((item)=> {
+                                const isActive = pathname === item.route || 
+                                pathname.startsWith(`${item.route}`)
 
-                    return (
-                        <Link 
-                        className={cn('sidebar-link', {
-                        'bg-bank-gradient': isActive
-                        })}
-                        key={ item.label }
-                        href={ item.route }>
-                            { 
-                                <div className='relative size-6'>
-                                <Image
-                                className={cn(
-                                    { 'brightness-[3] invert-0': isActive }
-                                )}
-                                src={item.imgURL}
-                                alt={item.label}
-                                fill/>
-                                </div> 
-                            }
-                            <p className={cn('sidebar-label', {'text-white': isActive})}>
-                                { item.label }
-                            </p>
-                        </Link> 
-                    )
-                    })}
+                                return (
+                                    <SheetClose asChild key={item.route}>
+                                        <Link 
+                                        className={cn('mobilenav-sheet_close w-full', {
+                                        'bg-bank-gradient': isActive
+                                        })}
+                                        key={ item.label }
+                                        href={ item.route }>
+                                            {           
+                                                <Image
+                                                className={cn(
+                                                    { 'brightness-[3] invert-0': isActive }
+                                                )}
+                                                src={item.imgURL}
+                                                alt={item.label}
+                                                width={20}
+                                                height={20}
+                                                fill/>
+                                            }
+                                            <p className={cn('text-16 font-semibold text-black-2', {'text-white': isActive})}>
+                                                { item.label }
+                                            </p>
+                                        </Link> 
+                                    </SheetClose>
+                                )
+                                })}
+
+                                USER
+                            </nav>
+                        </SheetClose>
+
+                        FOOTER
+                    </div>
                 </SheetContent>
             </Sheet>
         </section>
